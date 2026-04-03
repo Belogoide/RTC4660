@@ -42,6 +42,7 @@
       border-radius: 20px;
       cursor: pointer;
       font-weight: bold;
+      margin-right: 10px; /* ajusta posição */
     }
 
     .banner {
@@ -79,7 +80,7 @@
     }
 
     .card {
-      min-width: 200px;
+      flex: 0 0 200px; /* evita achatar */
       height: 120px;
       background-size: cover;
       background-position: center;
@@ -126,7 +127,7 @@
       width: 100%;
       height: 100%;
       background: #141414;
-      display: flex;
+      display: none; /* começa oculto */
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -161,7 +162,7 @@
 
 <header>
   <img src="logo.png">
-  <button class="btn-clube">Meu Clube</button>
+  <button class="btn-clube" onclick="abrirLogin()">Meu Clube</button>
 </header>
 
 <section class="banner" style="background-image: linear-gradient(to top, #141414, transparent), url('banner-principal.png');">
@@ -188,33 +189,30 @@
 </div>
 
 <script>
-  // CONFIG FIREBASE (SUBSTITUIR)
   const firebaseConfig = {
-   apiKey: "AIzaSyCtuh636ZIObSEHxEdvOZ3ii8UMWTrSBGI",
-  authDomain: "rtc4660.firebaseapp.com"
+    apiKey: "AIzaSyCtuh636ZIObSEHxEdvOZ3ii8UMWTrSBGI",
+    authDomain: "rtc4660.firebaseapp.com"
   };
 
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
 
-window.login = function() {
-  const email = document.getElementById('email').value;
-  const senha = document.getElementById('senha').value;
+  function abrirLogin() {
+    document.getElementById('login').style.display = 'flex';
+  }
 
-  auth.signInWithEmailAndPassword(email, senha)
-    .then(() => {
-      document.getElementById('login').style.display = 'none';
-    })
-    .catch((error) => {
-      alert(error.message);
-    });
-};
+  window.login = function() {
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
 
-  auth.onAuthStateChanged(user => {
-    if (user) {
-      document.getElementById('login').style.display = 'none';
-    }
-  });
+    auth.signInWithEmailAndPassword(email, senha)
+      .then(() => {
+        document.getElementById('login').style.display = 'none';
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
 
   let position = 0;
 
