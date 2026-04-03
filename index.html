@@ -197,7 +197,7 @@
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
 
-  function login() {
+  window.login = function() {
     const email = document.getElementById('email').value;
     const senha = document.getElementById('senha').value;
 
