@@ -5,6 +5,10 @@
   <title>Metas Distrito 4660</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+
   <style>
     body {
       margin: 0;
@@ -23,10 +27,21 @@
       z-index: 1000;
       display: flex;
       align-items: center;
+      justify-content: space-between;
     }
 
     header img {
       height: 40px;
+    }
+
+    .btn-clube {
+      background-color: #e91e63;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
     }
 
     .banner {
@@ -52,10 +67,6 @@
       position: relative;
     }
 
-    .row h3 {
-      margin-bottom: 10px;
-    }
-
     .cards-container {
       position: relative;
       overflow: hidden;
@@ -78,18 +89,12 @@
       padding: 10px;
       font-weight: bold;
       cursor: pointer;
-      transition: transform 0.3s;
-      background-color: #333;
     }
 
     .card span {
       background: rgba(0,0,0,0.6);
       padding: 5px 10px;
       border-radius: 3px;
-    }
-
-    .card:hover {
-      transform: scale(1.1);
     }
 
     .nav-btn {
@@ -113,24 +118,60 @@
       display: block;
     }
 
+    /* LOGIN */
+    .login {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #141414;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      z-index: 2000;
+    }
+
+    .login input {
+      padding: 10px;
+      width: 250px;
+    }
+
+    .login button {
+      padding: 10px 20px;
+      background: #e50914;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
   </style>
 </head>
 
 <body>
 
+<!-- LOGIN -->
+<div class="login" id="login">
+  <input type="email" id="email" placeholder="usuario@email.com">
+  <input type="password" id="senha" placeholder="Senha">
+  <button onclick="login()">Entrar</button>
+</div>
+
 <header>
-  <img src="logo.png" alt="RTC Logo">
+  <img src="logo.png">
+  <button class="btn-clube">Meu Clube</button>
 </header>
 
 <section class="banner" style="background-image: linear-gradient(to top, #141414, transparent), url('banner-principal.png');">
-  <h2>Avenidas RTC</h2>
+  <h2>Bem-vindo</h2>
 </section>
 
 <div class="row">
   <h3>Avenidas</h3>
 
   <div class="cards-container">
-
     <button class="nav-btn left" onclick="scrollCards(-1)">&#10094;</button>
     <button class="nav-btn right" onclick="scrollCards(1)">&#10095;</button>
 
@@ -143,11 +184,38 @@
       <div class="card" style="background-image: url('dqa.jpg');"><span>DQA</span></div>
       <div class="card" style="background-image: url('imagem-publica.jpg');"><span>Imagem Pública</span></div>
     </div>
-
   </div>
 </div>
 
 <script>
+  // CONFIG FIREBASE (SUBSTITUIR)
+  const firebaseConfig = {
+  apiKey: "AIzaSyCtuh636ZIObSEHxEdvOZ3ii8UMWTrSBGI",
+  authDomain: "rtc4660.firebaseapp.com"
+  };
+
+  const app = firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  function login() {
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
+
+    auth.signInWithEmailAndPassword(email, senha)
+      .then(() => {
+        document.getElementById('login').style.display = 'none';
+      })
+      .catch(() => {
+        alert('Erro no login');
+      });
+  }
+
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      document.getElementById('login').style.display = 'none';
+    }
+  });
+
   let position = 0;
 
   function scrollCards(direction) {
