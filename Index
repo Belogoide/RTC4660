@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>RTC Streaming</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      background-color: #141414;
+      font-family: Arial, sans-serif;
+      color: #fff;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0,0,0,0.8);
+      padding: 10px 30px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+    }
+
+    header img {
+      height: 40px;
+    }
+
+    .banner {
+      height: 60vh;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: flex-end;
+      padding: 40px;
+      margin-top: 70px;
+    }
+
+    .banner h2 {
+      font-size: 40px;
+      margin: 0;
+      background: rgba(0,0,0,0.6);
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+
+    .row {
+      margin: 20px 30px;
+    }
+
+    .row h3 {
+      margin-bottom: 10px;
+    }
+
+    .cards {
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+    }
+
+    .card {
+      min-width: 200px;
+      height: 120px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 5px;
+      display: flex;
+      align-items: flex-end;
+      padding: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s;
+      background-color: #333;
+    }
+
+    .card span {
+      background: rgba(0,0,0,0.6);
+      padding: 5px 10px;
+      border-radius: 3px;
+    }
+
+    .card:hover {
+      transform: scale(1.1);
+    }
+
+  </style>
+</head>
+
+<body>
+
+<header>
+  <!-- SUBSTITUA pelo caminho da sua logo -->
+  <img src="logo.png" alt="RTC Logo">
+</header>
+
+<!-- BANNER PRINCIPAL -->
+<section class="banner" style="background-image: linear-gradient(to top, #141414, transparent), url('banner-principal.jpg');">
+  <h2>Bem-vindo ao RTC</h2>
+</section>
+
+<!-- DIRETORIA -->
+<div class="row">
+  <h3>Diretoria</h3>
+  <div class="cards">
+    <div class="card" style="background-image: url('secretaria.jpg');"><span>Secretaria</span></div>
+    <div class="card" style="background-image: url('tesouraria.jpg');"><span>Tesouraria</span></div>
+    <div class="card" style="background-image: url('protocolo.jpg');"><span>Protocolo</span></div>
+  </div>
+</div>
+
+<!-- PROJETOS -->
+<div class="row">
+  <h3>Projetos</h3>
+  <div class="cards">
+    <div class="card" style="background-image: url('projetos.jpg');"><span>Projetos</span></div>
+    <div class="card" style="background-image: url('empoderamento.jpg');"><span>Empoderamento Feminino</span></div>
+  </div>
+</div>
+
+<!-- AVENIDAS -->
+<div class="row">
+  <h3>Avenidas</h3>
+  <div class="cards">
+    <div class="card" style="background-image: url('internos.jpg');"><span>Serviços Internos</span></div>
+    <div class="card" style="background-image: url('profissionais.jpg');"><span>Serviços Profissionais</span></div>
+    <div class="card" style="background-image: url('comunidade.jpg');"><span>Serviços à Comunidade</span></div>
+    <div class="card" style="background-image: url('internacional.jpg');"><span>Internacional</span></div>
+  </div>
+</div>
+
+</body>
+</html>
