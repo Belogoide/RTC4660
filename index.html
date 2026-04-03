@@ -190,21 +190,30 @@
 <script>
   // CONFIG FIREBASE (SUBSTITUIR)
   const firebaseConfig = {
-  apiKey: "AIzaSyCtuh636ZIObSEHxEdvOZ3ii8UMWTrSBGI",
-  authDomain: "rtc4660.firebaseapp.com"
+    apiKey: "SUA_API_KEY",
+    authDomain: "SEU_PROJETO.firebaseapp.com"
   };
 
-  const app = firebase.initializeApp(firebaseConfig);
+  firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
 
   function login() {
     const email = document.getElementById('email').value;
     const senha = document.getElementById('senha').value;
 
+    if (!auth) {
+      alert('Firebase não inicializado');
+      return;
+    }
+
     auth.signInWithEmailAndPassword(email, senha)
       .then(() => {
         document.getElementById('login').style.display = 'none';
       })
+      .catch((error) => {
+        alert(error.message);
+      });
+  })
       .catch(() => {
         alert('Erro no login');
       });
