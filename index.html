@@ -11,6 +11,7 @@
       background-color: #141414;
       font-family: Arial, sans-serif;
       color: #fff;
+      overflow-x: hidden;
     }
 
     header {
@@ -48,16 +49,22 @@
 
     .row {
       margin: 20px 30px;
+      position: relative;
     }
 
     .row h3 {
       margin-bottom: 10px;
     }
 
+    .cards-container {
+      position: relative;
+      overflow: hidden;
+    }
+
     .cards {
       display: flex;
-      overflow-x: auto;
       gap: 10px;
+      transition: transform 0.4s ease;
     }
 
     .card {
@@ -85,50 +92,79 @@
       transform: scale(1.1);
     }
 
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.6);
+      border: none;
+      color: white;
+      font-size: 30px;
+      cursor: pointer;
+      padding: 10px;
+      display: none;
+      z-index: 10;
+    }
+
+    .left { left: 0; }
+    .right { right: 0; }
+
+    .cards-container:hover .nav-btn {
+      display: block;
+    }
+
   </style>
 </head>
 
 <body>
 
 <header>
-  <!-- SUBSTITUA pelo caminho da sua logo -->
   <img src="logo.png" alt="RTC Logo">
 </header>
 
-<!-- BANNER PRINCIPAL -->
 <section class="banner" style="background-image: linear-gradient(to top, #141414, transparent), url('banner-principal.png');">
-  <h2>Bem-vindo</h2>
+  <h2>Avenidas RTC</h2>
 </section>
 
-<!-- DIRETORIA -->
-<div class="row">
-  <h3>Diretoria</h3>
-  <div class="cards">
-    <div class="card" style="background-image: url('secretaria.jpg');"><span>Secretaria</span></div>
-    <div class="card" style="background-image: url('tesouraria.jpg');"><span>Tesouraria</span></div>
-    <div class="card" style="background-image: url('protocolo.jpg');"><span>Protocolo</span></div>
-  </div>
-</div>
-
-<!-- PROJETOS -->
-<div class="row">
-  <h3>Projetos</h3>
-  <div class="cards">
-    <div class="card" style="background-image: url('projetos.jpg');"><span>Projetos</span></div>
-    <div class="card" style="background-image: url('empoderamento.jpg');"><span>Empoderamento Feminino</span></div>
-  </div>
-</div>
-
-<!-- AVENIDAS -->
 <div class="row">
   <h3>Avenidas</h3>
-  <div class="cards">
-    <div class="card" style="background-image: url('internos.jpg');"><span>Serviços Internos</span></div>
-    <div class="card" style="background-image: url('profissionais.jpg');"><span>Serviços Profissionais</span></div>
-    <div class="card" style="background-image: url('comunidade.jpg');"><span>Serviços à Comunidade</span></div>
-    <div class="card" style="background-image: url('internacional.jpg');"><span>Internacional</span></div>
+
+  <div class="cards-container">
+
+    <button class="nav-btn left" onclick="scrollCards(-1)">&#10094;</button>
+    <button class="nav-btn right" onclick="scrollCards(1)">&#10095;</button>
+
+    <div class="cards" id="cards">
+      <div class="card" style="background-image: url('tesouraria.jpg');"><span>Tesouraria</span></div>
+      <div class="card" style="background-image: url('secretaria.jpg');"><span>Secretaria</span></div>
+      <div class="card" style="background-image: url('protocolo.jpg');"><span>Protocolo</span></div>
+      <div class="card" style="background-image: url('projetos.jpg');"><span>Projetos</span></div>
+      <div class="card" style="background-image: url('empoderamento.jpg');"><span>Empoderamento Feminino</span></div>
+      <div class="card" style="background-image: url('dqa.jpg');"><span>DQA</span></div>
+      <div class="card" style="background-image: url('imagem-publica.jpg');"><span>Imagem Pública</span></div>
+    </div>
+
   </div>
 </div>
+
+<script>
+  let position = 0;
+
+  function scrollCards(direction) {
+    const container = document.getElementById('cards');
+    const cardWidth = 210;
+
+    position -= direction * cardWidth * 2;
+
+    if (position > 0) position = 0;
+
+    const maxScroll = -(container.scrollWidth - window.innerWidth + 60);
+
+    if (position < maxScroll) position = maxScroll;
+
+    container.style.transform = `translateX(${position}px)`;
+  }
+</script>
 
 </body>
 </html>
