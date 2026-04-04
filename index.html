@@ -122,7 +122,7 @@ header img { height:40px; }
   z-index:2000;
 }
 
-.login input {
+.login input, .login select {
   padding:10px;
   width:250px;
 }
@@ -131,11 +131,48 @@ header img { height:40px; }
 
 <body>
 
-<!-- LOGIN -->
+<!-- LOGIN + CADASTRO -->
 <div class="login" id="login">
+
+  <h3>Login</h3>
   <input id="email" placeholder="Email">
   <input id="senha" type="password" placeholder="Senha">
   <button onclick="login()">Entrar</button>
+
+  <br><br>
+
+  <h3>Cadastro</h3>
+  <input id="emailCad" placeholder="Email">
+  <input id="senhaCad" type="password" placeholder="Senha">
+
+  <select id="clube">
+    <option value="">Selecione seu clube</option>
+    <option>RTC Cruz Alta</option>
+    <option>RTC Campina das Missões</option>
+    <option>RTC Carazinho</option>
+    <option>RTC Cerro Largo</option>
+    <option>RTC Frederico Westphalen</option>
+    <option>RTC Horizontina</option>
+    <option>RTC Ibirubá</option>
+    <option>RTC Ijuí - Nova Geração</option>
+    <option>RTC Não-Me-Toque</option>
+    <option>RTC Palmeira das Missões</option>
+    <option>RTC Panambi</option>
+    <option>RTC Santa Maria</option>
+    <option>RTC Santa Maria Liberdade</option>
+    <option>RTC Santa Rosa</option>
+    <option>RTC Santo Ângelo</option>
+    <option>RTC São Borja Terra dos Presidentes</option>
+    <option>RTC São Luiz Gonzaga</option>
+    <option>RTC Tenente Portela</option>
+    <option>RTC Três de Maio</option>
+    <option>RTC Três Passos Junior</option>
+    <option>RTC Tucunduva</option>
+    <option>RTC Tupanciretã</option>
+  </select>
+
+  <button onclick="cadastrar()">Cadastrar</button>
+
 </div>
 
 <header>
@@ -173,8 +210,7 @@ const firebaseConfig = {
   projectId: "rtc4660",
   storageBucket: "rtc4660.firebasestorage.app",
   messagingSenderId: "700338850051",
-  appId: "1:700338850051:web:7e4c50fb54b394aef38136",
-  measurementId: "G-G1R70SHG9W"
+  appId: "1:700338850051:web:7e4c50fb54b394aef38136"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -196,15 +232,37 @@ function login() {
     .catch(e => alert(e.message));
 }
 
+function cadastrar() {
+  const email = document.getElementById('emailCad').value;
+  const senha = document.getElementById('senhaCad').value;
+  const clube = document.getElementById('clube').value;
+
+  if (!email || !senha || !clube) {
+    alert("Preencha todos os campos");
+    return;
+  }
+
+  auth.createUserWithEmailAndPassword(email, senha)
+    .then(userCredential => {
+      const uid = userCredential.user.uid;
+
+      return db.collection("usuarios").doc(uid).set({
+        clube: clube
+      });
+    })
+    .then(() => {
+      alert("Cadastro realizado com sucesso");
+      document.getElementById("login").style.display = "none";
+    })
+    .catch(e => alert(e.message));
+}
+
 auth.onAuthStateChanged(user => {
   if (user) {
     db.collection("usuarios").doc(user.uid).get()
       .then(doc => {
-        const dados = doc.data();
-
-        if (doc.exists && dados) {
-          document.getElementById("btnClube").innerText =
-            dados.clube || dados.Clube || "Sem clube";
+        if (doc.exists) {
+          document.getElementById("btnClube").innerText = doc.data().clube;
         }
       });
   }
