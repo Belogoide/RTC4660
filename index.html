@@ -188,7 +188,7 @@ header img { height:40px; }
 </div>
 
 <header>
-  <img src="logo.png">
+  <img src="logo.png" style="cursor:pointer;" onclick="voltarHome()">
   <button class="btn-clube" onclick="abrirLogin()" id="btnClube">Meu Clube</button>
 </header>
 
@@ -284,13 +284,19 @@ let position = 0;
 
 function scrollCards(direction) {
   const container = document.getElementById('cards');
+  const wrapper = container.parentElement;
+
   const cardWidth = 210;
+  const visibleWidth = wrapper.offsetWidth;
+  const totalWidth = container.scrollWidth;
 
   position -= direction * cardWidth * 2;
 
+  // limite esquerdo
   if (position > 0) position = 0;
 
-  const maxScroll = -(container.scrollWidth - window.innerWidth + 60);
+  // limite direito correto
+  const maxScroll = -(totalWidth - visibleWidth);
   if (position < maxScroll) position = maxScroll;
 
   container.style.transform = `translateX(${position}px)`;
@@ -304,6 +310,10 @@ function mostrarCadastro() {
 function mostrarLogin() {
   document.getElementById("telaLogin").style.display = "block";
   document.getElementById("telaCadastro").style.display = "none";
+}
+
+  function voltarHome() {
+  location.reload();
 }
 
   
