@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Meu Clube</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<style>
+body {
+  margin:0;
+  background:#141414;
+  color:#fff;
+  font-family:Arial;
+}
+
+header {
+  padding:15px 30px;
+  background:#000;
+}
+
+.container {
+  padding:30px;
+}
+
+.card {
+  background:#222;
+  padding:20px;
+  border-radius:10px;
+  margin-bottom:20px;
+}
+
+h2 {
+  margin-bottom:20px;
+}
+
+.nome {
+  font-size:18px;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2 id="nomeClube">Meu Clube</h2>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h3>Presidente</h3>
+    <div class="nome" id="presidente">-</div>
+  </div>
+
+  <div class="card">
+    <h3>Vice-Presidente</h3>
+    <div class="nome" id="vice">-</div>
+  </div>
+
+  <div class="card">
+    <h3>Imagem Pública</h3>
+    <div class="nome" id="imagem">-</div>
+  </div>
+
+</div>
+
+<script>
+const firebaseConfig = {
+  apiKey: "SUA_API_KEY",
+  authDomain: "rtc4660.firebaseapp.com",
+  projectId: "rtc4660"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+auth.onAuthStateChanged(user => {
+  if (user) {
+
+    db.collection("usuarios").doc(user.uid).get()
+    .then(doc => {
+      const clube = doc.data().clube;
+
+      document.getElementById("nomeClube").innerText = clube;
+
+      return db.collection("clubes").doc(clube).get();
+    })
+    .then(doc => {
+      if(doc.exists){
+        const dados = doc.data();
+
+        document.getElementById("presidente").innerText = dados.presidente || "-";
+        document.getElementById("vice").innerText = dados.vice || "-";
+        document.getElementById("imagem").innerText = dados.imagemPublica || "-";
+      }
+    });
+
+  }
+});
+</script>
+
+</body>
+</html>
