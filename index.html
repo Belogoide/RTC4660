@@ -3,107 +3,220 @@
 <head>
 <meta charset="UTF-8">
 <title>RTC 4660</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <style>
-body {margin:0;background:#141414;color:#fff;font-family:Arial;}
+body {
+  margin:0;
+  background:#141414;
+  color:#fff;
+  font-family:Arial;
+  overflow-x:hidden;
+}
 
 header {
-  position:fixed;top:0;width:100%;
-  display:flex;justify-content:space-between;
-  padding:10px 30px;background:#000;
+  position:fixed;
+  top:0;
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 30px;
+  background:rgba(0,0,0,0.8);
+  z-index:1000;
 }
+
+header img { height:40px; }
 
 .btn-clube {
   background:#e91e63;
+  color:#fff;
+  border:none;
   padding:10px 20px;
   border-radius:20px;
-  color:#fff;border:none;
   cursor:pointer;
+  font-weight:bold;
+  margin-right:10px;
 }
 
-.banner {margin-top:70px;height:60vh;background:url('banner-principal.png') center/cover;display:flex;align-items:flex-end;padding:40px;}
-.row {padding:20px;}
-
-.cards {display:flex;gap:10px;transition:0.3s;}
-.card {
-  width:200px;height:120px;
+.banner {
+  height:70vh;
+  background: linear-gradient(to top,#141414,transparent), url('banner-principal.png');
   background-size:cover;
-  display:flex;align-items:flex-end;
-  padding:10px;border-radius:5px;
+  background-position:center;
+  display:flex;
+  align-items:flex-end;
+  padding:40px;
+  margin-top:70px;
 }
 
+.banner h2 {
+  background:rgba(0,0,0,0.6);
+  padding:10px 20px;
+  border-radius:5px;
+}
+
+.row { margin:20px 30px; }
+
+.cards-container {
+  position:relative;
+  overflow:hidden;
+}
+
+.cards {
+  display:flex;
+  gap:10px;
+  transition:0.4s;
+}
+
+.card {
+  flex:0 0 200px;
+  height:120px;
+  border-radius:5px;
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  align-items:flex-end;
+  padding:10px;
+}
+
+.card span {
+  background:rgba(0,0,0,0.6);
+  padding:5px 10px;
+  border-radius:3px;
+}
+
+.nav-btn {
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:rgba(0,0,0,0.6);
+  border:none;
+  color:#fff;
+  font-size:30px;
+  cursor:pointer;
+  display:none;
+}
+
+.left { left:0; }
+.right { right:0; }
+
+.cards-container:hover .nav-btn { display:block; }
+
+/* LOGIN */
 .login {
   display:none;
   position:fixed;
-  width:100%;height:100%;
+  width:100%;
+  height:100%;
   background:#141414;
   justify-content:center;
   align-items:center;
   flex-direction:column;
+  gap:10px;
+  z-index:2000;
+}
+
+.login input {
+  padding:10px;
+  width:250px;
 }
 </style>
 </head>
 
 <body>
 
-<div id="login" class="login">
-<input id="email" placeholder="Email">
-<input id="senha" type="password" placeholder="Senha">
-<button onclick="login()">Entrar</button>
+<!-- LOGIN -->
+<div class="login" id="login">
+  <input id="email" placeholder="Email">
+  <input id="senha" type="password" placeholder="Senha">
+  <button onclick="login()">Entrar</button>
 </div>
 
 <header>
-<img src="logo.png" height="40">
-<button class="btn-clube" onclick="abrirLogin()">Meu Clube</button>
+  <img src="logo.png">
+  <button class="btn-clube" onclick="abrirLogin()" id="btnClube">Meu Clube</button>
 </header>
 
-<div class="banner"><h2>Bem-vindo</h2></div>
+<section class="banner">
+  <h2>Bem-vindo</h2>
+</section>
 
 <div class="row">
-<div class="cards" id="cards">
-<div class="card" style="background-image:url('tesouraria.jpg')"><span>Tesouraria</span></div>
-<div class="card" style="background-image:url('secretaria.jpg')"><span>Secretaria</span></div>
-<div class="card" style="background-image:url('protocolo.jpg')"><span>Protocolo</span></div>
+<h3>Avenidas</h3>
+
+<div class="cards-container">
+  <button class="nav-btn left" onclick="scrollCards(-1)">❮</button>
+  <button class="nav-btn right" onclick="scrollCards(1)">❯</button>
+
+  <div class="cards" id="cards">
+    <div class="card" style="background-image:url('tesouraria.jpg')"><span>Tesouraria</span></div>
+    <div class="card" style="background-image:url('secretaria.jpg')"><span>Secretaria</span></div>
+    <div class="card" style="background-image:url('protocolo.jpg')"><span>Protocolo</span></div>
+    <div class="card" style="background-image:url('projetos.jpg')"><span>Projetos</span></div>
+    <div class="card" style="background-image:url('empoderamento.jpg')"><span>Empoderamento Feminino</span></div>
+    <div class="card" style="background-image:url('dqa.jpg')"><span>DQA</span></div>
+    <div class="card" style="background-image:url('imagem-publica.jpg')"><span>Imagem Pública</span></div>
+  </div>
 </div>
 </div>
 
 <script>
 const firebaseConfig = {
-   apiKey: "AIzaSyCtuh636ZIObSEHxEdvOZ3ii8UMWTrSBGI",
-  authDomain: "rtc4660.firebaseapp.com"
+  apiKey: "AIzaSyCtuh636ZIObSEHxEdvOZ3ii8UMWTrSBGI",
+  authDomain: "rtc4660.firebaseapp.com",
 };
 
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-function abrirLogin(){
-  document.getElementById('login').style.display='flex';
+function abrirLogin() {
+  document.getElementById("login").style.display = "flex";
 }
 
-function login(){
-  const email = document.getElementById('email').value;
-  const senha = document.getElementById('senha').value;
+function login() {
+  const email = document.getElementById("email").value;
+  const senha = document.getElementById("senha").value;
 
   auth.signInWithEmailAndPassword(email, senha)
-  .then(()=> document.getElementById('login').style.display='none')
-  .catch(e=>alert(e.message));
+    .then(() => {
+      document.getElementById("login").style.display = "none";
+    })
+    .catch(e => alert(e.message));
 }
 
-auth.onAuthStateChanged(user=>{
-  if(user){
+auth.onAuthStateChanged(user => {
+  if (user) {
     db.collection("usuarios").doc(user.uid).get()
-    .then(doc=>{
-      if(doc.exists){
-        document.querySelector(".btn-clube").innerText = doc.data().clube;
-      }
-    });
+      .then(doc => {
+        if (doc.exists) {
+          document.getElementById("btnClube").innerText = doc.data().clube;
+        }
+      });
   }
 });
+
+let position = 0;
+
+function scrollCards(direction) {
+  const container = document.getElementById('cards');
+  const cardWidth = 210;
+
+  position -= direction * cardWidth * 2;
+
+  if (position > 0) position = 0;
+
+  const maxScroll = -(container.scrollWidth - window.innerWidth + 60);
+  if (position < maxScroll) position = maxScroll;
+
+  container.style.transform = `translateX(${position}px)`;
+}
 </script>
 
 </body>
