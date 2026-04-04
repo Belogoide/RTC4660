@@ -134,44 +134,56 @@ header img { height:40px; }
 <!-- LOGIN + CADASTRO -->
 <div class="login" id="login">
 
-  <h3>Login</h3>
-  <input id="email" placeholder="Email">
-  <input id="senha" type="password" placeholder="Senha">
-  <button onclick="login()">Entrar</button>
+  <!-- LOGIN -->
+  <div id="telaLogin">
+    <h3>Login</h3>
+    <input id="email" placeholder="Email">
+    <input id="senha" type="password" placeholder="Senha">
+    <button onclick="login()">Entrar</button>
 
-  <br><br>
+    <p style="cursor:pointer; color:#e91e63;" onclick="mostrarCadastro()">
+      Crie sua conta
+    </p>
+  </div>
 
-  <h3>Cadastro</h3>
-  <input id="emailCad" placeholder="Email">
-  <input id="senhaCad" type="password" placeholder="Senha">
+  <!-- CADASTRO -->
+  <div id="telaCadastro" style="display:none;">
+    <h3>Cadastro</h3>
+    <input id="emailCad" placeholder="Email">
+    <input id="senhaCad" type="password" placeholder="Senha">
 
-  <select id="clube">
-    <option value="">Selecione seu clube</option>
-    <option>RTC Cruz Alta</option>
-    <option>RTC Campina das Missões</option>
-    <option>RTC Carazinho</option>
-    <option>RTC Cerro Largo</option>
-    <option>RTC Frederico Westphalen</option>
-    <option>RTC Horizontina</option>
-    <option>RTC Ibirubá</option>
-    <option>RTC Ijuí - Nova Geração</option>
-    <option>RTC Não-Me-Toque</option>
-    <option>RTC Palmeira das Missões</option>
-    <option>RTC Panambi</option>
-    <option>RTC Santa Maria</option>
-    <option>RTC Santa Maria Liberdade</option>
-    <option>RTC Santa Rosa</option>
-    <option>RTC Santo Ângelo</option>
-    <option>RTC São Borja Terra dos Presidentes</option>
-    <option>RTC São Luiz Gonzaga</option>
-    <option>RTC Tenente Portela</option>
-    <option>RTC Três de Maio</option>
-    <option>RTC Três Passos Junior</option>
-    <option>RTC Tucunduva</option>
-    <option>RTC Tupanciretã</option>
-  </select>
+    <select id="clube">
+      <option value="">Selecione seu clube</option>
+      <option>RTC Cruz Alta</option>
+      <option>RTC Campina das Missões</option>
+      <option>RTC Carazinho</option>
+      <option>RTC Cerro Largo</option>
+      <option>RTC Frederico Westphalen</option>
+      <option>RTC Horizontina</option>
+      <option>RTC Ibirubá</option>
+      <option>RTC Ijuí - Nova Geração</option>
+      <option>RTC Não-Me-Toque</option>
+      <option>RTC Palmeira das Missões</option>
+      <option>RTC Panambi</option>
+      <option>RTC Santa Maria</option>
+      <option>RTC Santa Maria Liberdade</option>
+      <option>RTC Santa Rosa</option>
+      <option>RTC Santo Ângelo</option>
+      <option>RTC São Borja Terra dos Presidentes</option>
+      <option>RTC São Luiz Gonzaga</option>
+      <option>RTC Tenente Portela</option>
+      <option>RTC Três de Maio</option>
+      <option>RTC Três Passos Junior</option>
+      <option>RTC Tucunduva</option>
+      <option>RTC Tupanciretã</option>
+    </select>
 
-  <button onclick="cadastrar()">Cadastrar</button>
+    <button onclick="cadastrar()">Cadastrar</button>
+
+    <p style="cursor:pointer; color:#e91e63;" onclick="mostrarLogin()">
+      Voltar para login
+    </p>
+  </div>
 
 </div>
 
@@ -283,6 +295,18 @@ function scrollCards(direction) {
 
   container.style.transform = `translateX(${position}px)`;
 }
+
+function mostrarCadastro() {
+  document.getElementById("telaLogin").style.display = "none";
+  document.getElementById("telaCadastro").style.display = "block";
+}
+
+function mostrarLogin() {
+  document.getElementById("telaLogin").style.display = "block";
+  document.getElementById("telaCadastro").style.display = "none";
+}
+
+  
 </script>
 
 </body>
