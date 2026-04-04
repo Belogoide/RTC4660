@@ -95,9 +95,9 @@ auth.onAuthStateChanged(user => {
       if(doc.exists){
         const dados = doc.data();
 
-        document.getElementById("presidente").innerText = dados.presidente || "-";
-        document.getElementById("vice").innerText = dados.vice || "-";
-        document.getElementById("imagem").innerText = dados.imagemPublica || "-";
+       document.getElementById("presidente").innerText = dados.presidente || dados.Presidente || "-";
+       document.getElementById("vice").innerText = dados.vice || dados.Vice || "-";
+      document.getElementById("imagem").innerText = dados.imagemPublica || dados.ImagemPublica || "-";
       }
     });
 
