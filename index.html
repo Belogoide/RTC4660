@@ -316,6 +316,15 @@ function mostrarLogin() {
   location.reload();
 }
 
+  function acessarClube() {
+  const user = firebase.auth().currentUser;
+
+  if (user) {
+    window.location.href = "meu-clube.html";
+  } else {
+    abrirLogin();
+  }
+}
   
 </script>
 
